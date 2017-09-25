@@ -8,6 +8,7 @@ import android.media.RingtoneManager;
 import android.net.Uri;
 import android.support.v4.app.NotificationCompat;
 import android.util.Log;
+import android.R;
 import java.util.Map;
 import java.util.HashMap;
 
@@ -51,6 +52,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
 		Log.d(TAG, "\tNotification Data: " + data.toString());
         FCMPlugin.sendPushPayload( data );
         //sendNotification(remoteMessage.getNotification().getTitle(), remoteMessage.getNotification().getBody(), remoteMessage.getData());
+        sendNotification(remoteMessage.getData().get("ns_title"), remoteMessage.getData().get("ns_body"), data);
     }
     // [END receive_message]
 
@@ -69,10 +71,14 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
                 PendingIntent.FLAG_ONE_SHOT);
 
         Uri defaultSoundUri= RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
+	String encTitle = "*" + android.text.Html.fromHtml(title).toString();
+	String encMessageBody = android.text.Html.fromHtml(messageBody).toString();
         NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(this)
                 .setSmallIcon(getApplicationInfo().icon)
-                .setContentTitle(java.net.URLDecoder.decode(title))
-                .setContentText(java.net.URLDecoder.decode(messageBody))
+                //.setSmallIcon(getResources().getIdentifier("notification_png","drawable",getPackageName()))
+                .setLargeIcon(android.graphics.BitmapFactory.decodeResource(getResources(), getResources().getIdentifier("notification_png","drawable",getPackageName())))
+                .setContentTitle(encTitle)
+                .setContentText(encMessageBody)
                 .setAutoCancel(true)
                 .setSound(defaultSoundUri)
                 .setContentIntent(pendingIntent);
