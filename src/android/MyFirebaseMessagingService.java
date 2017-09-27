@@ -71,11 +71,12 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
                 PendingIntent.FLAG_ONE_SHOT);
 
         Uri defaultSoundUri= RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
-	String encTitle = "*" + android.text.Html.fromHtml(title).toString();
+	String encTitle = android.text.Html.fromHtml(title).toString();
 	String encMessageBody = android.text.Html.fromHtml(messageBody).toString();
         NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(this)
-                .setSmallIcon(getApplicationInfo().icon)
-                //.setSmallIcon(getResources().getIdentifier("notification_png","drawable",getPackageName()))
+                //.setSmallIcon(getApplicationInfo().icon)
+                .setSmallIcon(getResources().getIdentifier("notification_png","drawable",getPackageName()))
+		.setColor(1403335);
                 .setLargeIcon(android.graphics.BitmapFactory.decodeResource(getResources(), getResources().getIdentifier("notification_png","drawable",getPackageName())))
                 .setContentTitle(encTitle)
                 .setContentText(encMessageBody)
