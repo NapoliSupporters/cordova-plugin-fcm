@@ -68,24 +68,31 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
 			intent.putExtra(key, data.get(key).toString());
 		}
         PendingIntent pendingIntent = PendingIntent.getActivity(this, 0 /* Request code */, intent,
-                PendingIntent.FLAG_ONE_SHOT);
+                PendingIntent.FLAG_CANCEL_CURRENT);
 
         Uri defaultSoundUri= RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
 	String encTitle = android.text.Html.fromHtml(title).toString();
 	String encMessageBody = android.text.Html.fromHtml(messageBody).toString();
+
         NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(this)
                 //.setSmallIcon(getApplicationInfo().icon)
                 .setSmallIcon(getResources().getIdentifier("notification_png","drawable",getPackageName()))
-		.setColor(1403335);
+		.setColor(1403335)
                 .setLargeIcon(android.graphics.BitmapFactory.decodeResource(getResources(), getResources().getIdentifier("notification_png","drawable",getPackageName())))
-                .setContentTitle(encTitle)
-                .setContentText(encMessageBody)
+                .setContentTitle(encMessageBody)
+                //.setContentText(encMessageBody)
                 .setAutoCancel(true)
                 .setSound(defaultSoundUri)
-                .setContentIntent(pendingIntent);
+                .setContentIntent(pendingIntent)
+		.setSubText("NapoliSupporters.com")
+		.setTicker(encMessageBody)
+		.setDefaults(NotificationCompat.DEFAULT_VIBRATE | NotificationCompat.DEFAULT_LIGHTS |
+                    NotificationCompat.DEFAULT_SOUND)
+		.setStyle(new NotificationCompat.BigTextStyle().bigText(encMessageBody).setBigContentTitle(""));
 
         NotificationManager notificationManager =
                 (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+	notificationManager.cancelAll();
 
         notificationManager.notify(0 /* ID of notification */, notificationBuilder.build());
     }
