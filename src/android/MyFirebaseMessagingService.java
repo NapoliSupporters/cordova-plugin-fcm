@@ -76,7 +76,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
 
         NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(this)
                 //.setSmallIcon(getApplicationInfo().icon)
-                .setSmallIcon(getResources().getIdentifier("notification_png","drawable",getPackageName()))
+                .setSmallIcon(getResources().getIdentifier("ic_ns_notify","drawable",getPackageName()))
 		.setColor(1403335)
                 .setLargeIcon(android.graphics.BitmapFactory.decodeResource(getResources(), getResources().getIdentifier("notification_png","drawable",getPackageName())))
                 .setContentTitle(encMessageBody)
